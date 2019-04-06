@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e -u -o pipefail
+shopt -s nullglob
+
+extension="$GHR_COMPRESS"
+
+if [ "$extension" = "gz" ]; then
+    option=z
+elif [ "$extension" = "bz2" ]; then
+    option=j
+elif [ "$extension" = "xz" ]; then
+    option=J
+else
+    echo "ghr-compress: error: unknown extension: ${extension}" >&2
+    exit 1
+fi
+
+ghr-compress-one() {
+    local file="$1"
+    /bin/tar c "-${option}" -f "${file}.tar.${extension}" "$file"
+    /bin/rm -r -- "$file"
+}
+
+if [ "$GHR_PATH" = "." ]; then
+    for file in *; do
+        ghr-compress-one "$file"
+    done
+else
+    ghr-compress-one "$GHR_PATH"
+    echo "export GHR_PATH=$(printf '%q' "${GHR_PATH}.tar.${extension}")"
+fi
