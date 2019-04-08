@@ -2,8 +2,8 @@ FROM alpine:latest
 
 LABEL "com.github.actions.name"="GitHub Releases"
 LABEL "com.github.actions.description"="Upload build artifacts to GitHub releases"
-LABEL "com.github.actions.icon"="log-in"
-LABEL "com.github.actions.color"="blue"
+LABEL "com.github.actions.icon"="tag"
+LABEL "com.github.actions.color"="black"
 
 ENV GHR_FORK tcnksm/ghr
 ENV GHR_VERSION 0.12.0
