@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL "com.github.actions.name"="Compressed GitHub Releases"
+LABEL "com.github.actions.name"="GitHub Releases"
 LABEL "com.github.actions.description"="Upload build artifacts to GitHub releases"
 LABEL "com.github.actions.icon"="tag"
 LABEL "com.github.actions.color"="black"
