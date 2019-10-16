@@ -10,16 +10,37 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
 ## Variables
 
 - `GHR_PATH` — **Required.**
-Path to the artifacts you want to upload.
-You can specify a file or a directory.
-If you provide a directory, all files in that directory will be uploaded.
+  Path to the artifacts you want to upload.
+  You can specify a file or a directory.
+  If you provide a directory, all files in that directory will be uploaded.
 
 - `GHR_COMPRESS` — **Optional.**
-Compress files before uploading them.
-Can be either `gz`, `bz2` or `xz`.
-The correct file extension will be appended (e.g. `.tar.gz`).
+  Compress files before uploading them.
+  Can be either `gz`, `bz2` or `xz`.
+  The correct file extension will be appended (e.g. `.tar.gz`).
 
 ## Usage example
+
+### YAML
+
+```yaml
+on: push
+name: Build and release on push
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release
+        uses: fnkr/github-action-ghr@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GHR_COMPRESS: xz
+          GHR_PATH: build/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+### HCL
 
 ```hcl
 workflow "Build and release on push" {
