@@ -16,8 +16,8 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
 
 - `GHR_COMPRESS` — **Optional.**
   Compress files before uploading them.
-  Can be either `gz`, `bz2` or `xz`.
-  The correct file extension will be appended (e.g. `.tar.gz`).
+  Can be either `gz`, `bz2`, `xz`, or `zip`.
+  The correct file extension will be appended (e.g. `.tar.gz`, or `.zip`).
 
 ## Usage example
 
