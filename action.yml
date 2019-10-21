@@ -1,0 +1,8 @@
+name: GitHub Releases
+description: Upload build artifacts to GitHub releases.
+branding:
+  icon: tag
+  color: black
+runs:
+  using: docker
+  image: Dockerfile
