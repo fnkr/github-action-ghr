@@ -39,26 +39,3 @@ jobs:
           GHR_PATH: build/
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-### HCL
-
-```hcl
-workflow "Build and release on push" {
-  on = "push"
-  resolves = ["Build", "Release"]
-}
-
-action "Build" {
-  uses = "./"
-}
-
-action "Release" {
-  uses = "fnkr/github-action-ghr@v1"
-  needs = ["Build"]
-  secrets = ["GITHUB_TOKEN"]
-  env = {
-    GHR_PATH = "build/"
-    GHR_COMPRESS = "xz"
-  }
-}
-```
