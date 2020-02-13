@@ -1,7 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
+if [ "${GHR_DEBUG:-}" = "true" ] || [ "${GHR_DEBUG:-}" = "yes" ] || [ "${GHR_DEBUG:-}" = "1" ]; then
+    set -x
+fi
 set -e -u -o pipefail
 [[ "$GITHUB_REF" != refs/tags/* ]] && echo "${GITHUB_REF} is not a tag, exiting..." && exit 78
 [ -f "$GHR_PATH" ] && cd -- "$(dirname -- "$GHR_PATH")" && export GHR_PATH="$(basename -- "$GHR_PATH")"
 [ -d "$GHR_PATH" ] && cd -- "$GHR_PATH" && export GHR_PATH=.
 [ -n "${GHR_COMPRESS:-}" ] && eval "$(/usr/local/bin/ghr-compress)"
-/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
+if [ -z "${GHR_REPOSITORY:-}" ]; then GHR_REPOSITORY="$GITHUB_REPOSITORY"; fi
+ghr=(/usr/local/bin/ghr -u "${GHR_REPOSITORY%/*}" -r "${GHR_REPOSITORY#*/}")
+if [ -n "${GHR_TITLE:-}" ]; then
+    ghr+=("-n" "$GHR_TITLE")
+elif [ -n "${GHR_TITLE_FILE:-}" ]; then
+    ghr+=("-n" "$(cat -- "$GHR_TITLE_FILE")")
+fi
+if [ -n "${GHR_BODY:-}" ]; then
+    ghr+=("-b" "$GHR_BODY")
+elif [ -n "${GHR_BODY_FILE:-}" ]; then
+    ghr+=("-b" "$(cat -- "$GHR_BODY_FILE")")
+fi
+if [ "${GHR_REPLACE:-}" = "true" ] || [ "${GHR_REPLACE:-}" = "yes" ] || [ "${GHR_REPLACE:-}" = "1" ]; then
+    ghr+=("-replace")
+fi
+if [ "${GHR_DRAFT:-}" = "true" ] || [ "${GHR_DRAFT:-}" = "yes" ] || [ "${GHR_DRAFT:-}" = "1" ]; then
+    ghr+=("-draft")
+fi
+if [ "${GHR_SOFT:-}" = "true" ] || [ "${GHR_SOFT:-}" = "yes" ] || [ "${GHR_SOFT:-}" = "1" ]; then
+    ghr+=("-soft")
+fi
+if [ "${GHR_PRERELEASE:-}" = "true" ] || [ "${GHR_PRERELEASE:-}" = "yes" ] || [ "${GHR_PRERELEASE:-}" = "1" ]; then
+    ghr+=("-prerelease")
+fi
+ghr+=("${GITHUB_REF#refs/tags/}" "$GHR_PATH")
+"${ghr[@]}"

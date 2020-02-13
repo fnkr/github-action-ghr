@@ -19,9 +19,33 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
   Can be either `gz`, `bz2`, `xz`, or `zip`.
   The correct file extension will be appended (e.g. `.tar.gz`, or `.zip`).
 
-## Usage example
+- `GHR_TITLE` — **Optional.**
+  Set release title.
 
-### YAML
+- `GHR_TITLE_FILE` — **Optional.**
+  Set path to file that contains release title.
+
+- `GHR_BODY` — **Optional.**
+  Set release description.
+
+- `GHR_BODY_FILE` — **Optional.**
+  Set path to file that contains release description.
+
+- `GHR_REPLACE` — **Optional.**
+  Replace artifacts if already present.
+
+- `GHR_DRAFT` — **Optional.**
+  Release as draft (unpublish).
+
+- `GHR_PRERELEASE` — **Optional.**
+  Release as pre-release.
+
+- `GHR_REPOSITORY` - **Optional.**
+  Release to another repository.
+  Note: `${{ secrets.GITHUB_TOKEN }}` only grants access to the current repository.
+  If you're releasing to another repository, you'll need to use a personal access token with `repo` scope.
+
+## Usage
 
 ```yaml
 on: push
