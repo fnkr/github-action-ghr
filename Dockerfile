@@ -6,7 +6,7 @@ LABEL "com.github.actions.icon"="tag"
 LABEL "com.github.actions.color"="black"
 
 ENV GHR_FORK tcnksm/ghr
-ENV GHR_VERSION 0.12.0
+ENV GHR_VERSION 0.13.0
 
 RUN apk add --no-cache bash curl xz zip
 
