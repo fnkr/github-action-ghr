@@ -4,4 +4,11 @@ set -e -u -o pipefail
 [ -f "$GHR_PATH" ] && cd -- "$(dirname -- "$GHR_PATH")" && export GHR_PATH="$(basename -- "$GHR_PATH")"
 [ -d "$GHR_PATH" ] && cd -- "$GHR_PATH" && export GHR_PATH=.
 [ -n "${GHR_COMPRESS:-}" ] && eval "$(/usr/local/bin/ghr-compress)"
-/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
+export FLAGS=""
+[ -n "${GHR_DRAFT}" ] && export FLAGS="$FLAGS -draft"
+[ -n "${GHR_PRERELEASE}" ] && export FLAGS="$FLAGS -prerelease"
+[ -n "${GHR_SOFT}" ] && export FLAGS="$FLAGS -soft"
+[ -n "${GHR_DELETE}" ] && export FLAGS="$FLAGS -delete"
+[ -n "${GHR_REPLACE}" ] && export FLAGS="$FLAGS -replace"
+
+/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" ${FLAGS} "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
