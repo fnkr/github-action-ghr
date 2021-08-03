@@ -30,12 +30,15 @@ ghr-compress-one-zip() {
 
 ghr-compress-one() {
     local file="$1"
-    if [ "$GHR_COMPRESS" = "zip" ]; then
-        ghr-compress-one-zip "$file" >&2
-    else
-        ghr-compress-one-tar "$file"
+    local file_extension=".${file#*.}"  # get extension from the file
+    if [ "$file_extension" != "$extension" ]; then # only compress if the extensions dont match to avoid recompressing
+      if [ "$GHR_COMPRESS" = "zip" ]; then
+          ghr-compress-one-zip "$file" >&2
+      else
+          ghr-compress-one-tar "$file"
+      fi
+      rm -r -- "$file"
     fi
-    rm -r -- "$file"
 }
 
 if [ "$GHR_PATH" = "." ]; then
