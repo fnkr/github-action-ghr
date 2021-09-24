@@ -1,7 +1,15 @@
 #!/bin/bash
 set -e -u -o pipefail
+GHR_DELETE_OPT=""
+GHR_REPLACE_OPT=""
 [[ "$GITHUB_REF" != refs/tags/* ]] && echo "${GITHUB_REF} is not a tag, exiting..." && exit 78
 [ -f "$GHR_PATH" ] && cd -- "$(dirname -- "$GHR_PATH")" && export GHR_PATH="$(basename -- "$GHR_PATH")"
 [ -d "$GHR_PATH" ] && cd -- "$GHR_PATH" && export GHR_PATH=.
 [ -n "${GHR_COMPRESS:-}" ] && eval "$(/usr/local/bin/ghr-compress)"
-/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
+if [ "${GHR_DELETE:-}" == "true" ]; then
+  GHR_DELETE_OPT="-delete"
+fi
+if [ "${GHR_REPLACE:-}" == "true" ]; then
+  GHR_REPLACE_OPT="-replace"
+fi
+/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" ${GHR_DELETE_OPT} ${GHR_REPLACE_OPT} "${GITHUB_REF#refs/tags/}" "$GHR_PATH"

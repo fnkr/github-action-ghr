@@ -19,6 +19,14 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
   Can be either `gz`, `bz2`, `xz`, or `zip`.
   The correct file extension will be appended (e.g. `.tar.gz`, or `.zip`).
 
+- `GHR_DELETE` — **Optional.**
+  Delete release and its git tag in advance if it exists.
+  Can be either `true` or `false`
+
+- `GHR_REPLACE` — **Optional.**
+  Replace artifacts if it is already uploaded.
+  Can be either `true` or `false`
+
 ## Usage example
 
 ### YAML
