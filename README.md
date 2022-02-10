@@ -27,6 +27,9 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
   Replace artifacts if it is already uploaded.
   Can be either `true` or `false`
 
+- `GHR_PARALLELISM` — **Optional.**
+  Set amount of parallelism
+
 ## Usage example
 
 ### YAML
