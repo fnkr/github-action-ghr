@@ -12,4 +12,5 @@ fi
 if [ "${GHR_REPLACE:-}" == "true" ]; then
   GHR_REPLACE_OPT="-replace"
 fi
-/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" ${GHR_DELETE_OPT} ${GHR_REPLACE_OPT} "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
+GHR_PARALLELISM=${GHR_PARALLELISM:-$(nproc)}
+/usr/local/bin/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" -p ${GHR_PARALLELISM} ${GHR_DELETE_OPT} ${GHR_REPLACE_OPT} "${GITHUB_REF#refs/tags/}" "$GHR_PATH"
