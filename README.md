@@ -16,6 +16,7 @@ The action will trigger on pushes to tags and exit neutrally otherwise.
 
 - `GHR_COMPRESS` — **Optional.**
   Compress files before uploading them.
+  If `GHR_PATH` is a directory, it is compressed as a single archive (e.g. `dist/package-a` becomes `package-a.zip`).
   Can be either `gz`, `bz2`, `xz`, or `zip`.
   The correct file extension will be appended (e.g. `.tar.gz`, or `.zip`).
 
